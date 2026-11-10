@@ -105,22 +105,36 @@ Every time you are asked to make a change follow:
 * The test calls the code the way its user does and checks the result that user would see.
 * If the test would still pass when every function returned nothing, throw it out.
 
+## Tool output
+
+* The three tools write results into a `.metrics/` folder in the project. Before the first run in a project, add `.metrics/` to its `.gitignore` if it is not already there.
+
 ## Crapper
 
-* Use the crapper tool
+* Run the `crapper` command (on PATH; source in ~/code/tools/crapper). Use `--changed` for only the edited files, `--no-coverage` if tests cannot run.
 * Reduce each function under  CRAP 10 by splitting it, by testing it, or both.
 * Consider whether case statements are worth reducing.
 
 ## Dryer
 
-* Use the dryer tool to eliminate duplication that rank 0.8 or above.
+* Run the `dryer` command (on PATH; source in ~/code/tools/dryer) and eliminate duplication that ranks 0.8 or above.
 
 ## Mutator
 
-* Use the mutator tool
+* Run the `mutator` command (on PATH; source in ~/code/tools/mutator). Start with the file you are working on; pass `--test-command` if the test runner is not detected.
 * Cover the uncovered.
 * Kill the survivors.
 * Delete dead code.
+
+## R
+
+* The three tools read R files (`.R`, `.r`). A function counts when it is assigned to a name at the top of a file (`name <- function(...)`). A function inside another function is part of the outer one.
+* Coverage needs the R package `covr`. If it is missing, say so and ask before installing it.
+* In a project of loose scripts (no `DESCRIPTION` file), crapper and mutator load each R file they score, and loading a file runs its top-level code. Name the files to score. Do not point the tools at a script that downloads, uploads, or writes when it is loaded.
+* Tests: a package runs testthat. Loose scripts run `tests/testthat/` through testthat, or else each `tests/test*.R` file. If the project has its own runner, pass it: `mutator --test-command "Rscript tests/run_all.R"`.
+* Mutator stops when the test command fails before any change is made. Fix the failing tests, or pass a test command that runs only the tests for the files being changed.
+* Mutator reports a change as uncovered when covr cannot show that the code ran. That includes a branch or a loop body written without braces inside a larger statement, and the right side of `&&` or `||`. Uncovered there means not known to have run. To have it measured, write the branch in braces. To try it anyway, run that file with `--no-coverage`, and do not count a survivor in code the tests never reach as a weak test.
+* For R the tools also write coverage and worker files under `target/`. Add `target/` to `.gitignore` alongside `.metrics/`.
 
 ## Refactoring
 
@@ -145,8 +159,8 @@ Every time you are asked to make a change follow:
 * Find what is safe to remove, confirm nothing still in use needs it, then reclaim the disk.
 * Uncommitted work waits for a decision.
 
-## Commit and Push
+## Commit
 
-* Commit often, in small ordered commits.
+* Commit often, in small ordered commits, on a branch rather than the default branch.
 * Each commit says why, what changed, and how you proved it.
-* Push to the main line at the end.
+* Do not push unless the user asks.

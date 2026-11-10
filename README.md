@@ -4,7 +4,7 @@
 
 1. **First Make it Work** — Laziness Protocol, Foundational Thinking, TDD, Redesign From First Principles, Attack the Premise, Subtract Before You Add, Outcome-Oriented Execution, Build the Lever, and Architecture (Model the Domain, Boundary Discipline, Type System Discipline, Make Operations Idempotent, Separate Before Serializing Shared State).
 2. **Then Make it Right** — Fix Root Causes, Sequence Work into Verifiable Units, Test Behavior (Not Implementation), [Crapper](https://github.com/unclebob/crapper) (`CRAP < 10`), [Dryer](https://github.com/unclebob/dryer) (duplication `< 0.8`), [Mutator](https://github.com/unclebob/mutator) (cover the uncovered, kill the survivors, delete dead code), and Refactoring.
-3. **Practice** — Keep a Log, Guard the Context Window, Worktree Cleanup, and Commit and Push in small ordered commits.
+3. **Practice** — Keep a Log, Guard the Context Window, Worktree Cleanup, and Commit in small ordered commits on a branch (push only when asked).
 
 ## Companion Tool Repositories
 
@@ -15,6 +15,10 @@
 - [unclebob/mutator](https://github.com/unclebob/mutator) — Runs mutation testing to expose uncovered code and surviving mutants that tests fail to catch.
 - [unclebob/uml-viewer](https://github.com/unclebob/uml-viewer) — Visualizes components, coverage, CRAP, mutation scores, and dependency directions.
 
+R support for crapper, dryer and mutator is not in the repositories above yet. It lives in these forks: [Thiyaghessan/crapper](https://github.com/Thiyaghessan/crapper), [Thiyaghessan/dryer](https://github.com/Thiyaghessan/dryer) and [Thiyaghessan/mutator](https://github.com/Thiyaghessan/mutator). Use them to run `ub-mode` on R code. R coverage needs the `covr` package.
+
 ## Installation
 
 Copy `SKILL.md` into your agent's skills directory as `ub-mode/SKILL.md` (for example `~/.grok/skills/ub-mode/SKILL.md`, `~/.claude/skills/ub-mode/SKILL.md`, or `~/.cursor/skills/ub-mode/SKILL.md`), then invoke `/ub-mode`.
+
+The skill calls `crapper`, `dryer` and `mutator` by name, so put all three on your `PATH`. It expects their source in `~/code/tools/`; change those paths in `SKILL.md` if yours is elsewhere.
